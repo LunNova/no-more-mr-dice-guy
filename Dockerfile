@@ -20,7 +20,7 @@ RUN cargo build --release --offline
 
 FROM ubuntu:rolling
 
-LABEL org.opencontainers.image.source=https://github.com/TransLunarInjection/no-more-mr-dice-guy
+LABEL org.opencontainers.image.source=https://github.com/LunNova/no-more-mr-dice-guy
 
 RUN addgroup --gid 1000 nmmdg && \
     adduser --disabled-login --shell /bin/sh --uid 1000 --ingroup nmmdg nmmdg && \
