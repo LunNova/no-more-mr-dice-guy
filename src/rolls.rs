@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, ensure, Result};
 use rand::Rng;
 use regex::{Captures, Regex, Replacer};
 use std::borrow::Cow;
@@ -12,6 +12,7 @@ mod test;
 use options::Options;
 
 const MAX_ROLLED_DICE: DiceInt = 500;
+const MAX_ROLL_LIST_SIZE: DiceInt = MAX_ROLLED_DICE * 3;
 const MAX_DICE_SIDES: DiceInt = 10_000;
 
 lazy_static! {
@@ -140,6 +141,8 @@ impl DiceRoll {
 				}
 				rolls.push(total);
 			}
+
+			ensure!(rolls.len() <= MAX_ROLL_LIST_SIZE as usize, "Too many entries in roll list (max = {}), giving up.", MAX_ROLL_LIST_SIZE);
 
 			dice_to_roll = 0;
 			if options.explode == Some(options::Explode::Standard) {
