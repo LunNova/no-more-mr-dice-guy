@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 tokio = { version = "1.19.2", features = ["macros", "rt-multi-thread"] }
-rand = "0.8.3"
+rand = "0.8.5"
 rand_chacha = "0.3"
 meval = "0.2"
 lazy_static = "1.4"
@@ -18,8 +18,8 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 tracing-futures = "0.2"
 regex = "1.5"
-num-traits = "0.2.14"
-itertools = "0.10.0"
+num-traits = "0.2.15"
+itertools = "0.10.3"
 
 [dependencies.serenity]
 default-features = false
@@ -36,4 +36,4 @@ features = [
     "framework",
     "standard_framework",
 ]
-version = "0.10.9"
+version = "0.11.2"
