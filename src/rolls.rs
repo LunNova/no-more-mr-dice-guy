@@ -142,7 +142,11 @@ impl DiceRoll {
 				rolls.push(total);
 			}
 
-			ensure!(rolls.len() <= MAX_ROLL_LIST_SIZE as usize, "Too many entries in roll list (max = {}), giving up.", MAX_ROLL_LIST_SIZE);
+			ensure!(
+				rolls.len() <= MAX_ROLL_LIST_SIZE as usize,
+				"Too many entries in roll list (max = {}), giving up.",
+				MAX_ROLL_LIST_SIZE
+			);
 
 			dice_to_roll = 0;
 			if options.explode == Some(options::Explode::Standard) {

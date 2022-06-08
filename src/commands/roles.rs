@@ -72,7 +72,7 @@ pub async fn handle_reaction(ctx: &Context, reaction: &Reaction, added: bool) ->
 		Some(user_id) => user_id,
 	};
 
-	if user_id == ctx.cache.current_user_id().await {
+	if user_id == ctx.cache.current_user_id() {
 		return Ok(());
 	}
 
@@ -142,7 +142,6 @@ async fn add_role_toggle(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 
 	let guild: Guild = msg
 		.guild(&ctx)
-		.await
 		.ok_or_else(|| anyhow!("Couldn't retrieve guild"))?;
 	let role = guild
 		.role_by_name(role)
@@ -175,7 +174,6 @@ async fn remove_role_toggle(ctx: &Context, msg: &Message, mut args: Args) -> Com
 
 	let guild: Guild = msg
 		.guild(&ctx)
-		.await
 		.ok_or_else(|| anyhow!("Couldn't retrieve guild"))?;
 
 	{
@@ -226,7 +224,7 @@ async fn update_or_create_toggle_message(
 		Some((channel_id, message_id)) => match channel_id.message(&ctx, message_id).await.ok() {
 			None => None,
 			Some(message) => {
-				if message.author.id == ctx.cache.current_user_id().await {
+				if message.author.id == ctx.cache.current_user_id() {
 					Some(message)
 				} else {
 					None

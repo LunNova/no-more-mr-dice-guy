@@ -7,8 +7,9 @@
 extern crate lazy_static;
 
 use anyhow::Result;
-use serenity::client::bridge::gateway::{GatewayIntents, ShardManager};
+use serenity::client::bridge::gateway::ShardManager;
 use serenity::framework::StandardFramework;
+use serenity::model::gateway::GatewayIntents;
 use serenity::model::prelude::Activity;
 use serenity::model::user::OnlineStatus;
 use serenity::{async_trait, model::gateway::Ready, model::prelude::*, prelude::*};
@@ -94,7 +95,7 @@ async fn main() {
 async fn start() -> Result<()> {
 	let intents = GatewayIntents::GUILDS
 		| GatewayIntents::DIRECT_MESSAGES // DM commands
-		| GatewayIntents::GUILD_EMOJIS // emoji
+		| GatewayIntents::GUILD_EMOJIS_AND_STICKERS // emoji
 		| GatewayIntents::GUILD_MESSAGE_REACTIONS // guild role reacts
 		| GatewayIntents::GUILD_MESSAGES; // guild commands
 
@@ -111,8 +112,7 @@ async fn start() -> Result<()> {
 	}))
 	.await;
 
-	let mut client = Client::builder(&token)
-		.intents(intents)
+	let mut client = Client::builder(&token, intents)
 		.event_handler(Handler)
 		.framework(framework)
 		.await

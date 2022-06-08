@@ -53,7 +53,7 @@ async fn latency(ctx: &Context, msg: &Message) -> CommandResult {
 #[command]
 #[description("Gets this bot's invite link")]
 async fn invite(ctx: &Context, msg: &Message) -> CommandResult {
-	let id = ctx.cache.current_user_id().await;
+	let id = ctx.cache.current_user_id();
 	msg.reply(
 		&ctx,
 		format!(
@@ -195,7 +195,7 @@ async fn unknown_command(ctx: &Context, msg: &Message, unknown_command_name: &st
 }
 
 #[hook]
-async fn dispatch_error(ctx: &Context, msg: &Message, error: DispatchError) {
+async fn dispatch_error(ctx: &Context, msg: &Message, error: DispatchError, _command_name: &str) {
 	let error_message = match error {
 		DispatchError::CheckFailed(message, reason) => {
 			format!("Check {} failed due to {:?}", message, reason)
