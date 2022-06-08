@@ -24,7 +24,7 @@ LABEL org.opencontainers.image.source=https://github.com/LunNova/no-more-mr-dice
 
 RUN addgroup --gid 1000 nmmdg && \
     adduser --disabled-login --shell /bin/sh --uid 1000 --ingroup nmmdg nmmdg && \
-    apt-get update && apt-get install libssl1.1 libcurl4 -y && rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install libssl3 libcurl4 -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/nmmdg/
 
