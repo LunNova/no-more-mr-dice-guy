@@ -19,7 +19,7 @@ jobs:
         run: |
           GITHUB_REF_STRIPPED=${GITHUB_REF#refs/*/}
           echo ::set-output name=tag::${GITHUB_REF_STRIPPED}
-      - uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6 # tag=v2
+      - uses: docker/setup-buildx-action@4c0219f9ac95b02789c1075625400b2acbff50b1 # v2
       - name: Cache Docker layers
         uses: actions/cache@940f3d7cf195ba83374c77632d1e2cbb2f24ae68 # v3.3.0
         with:
