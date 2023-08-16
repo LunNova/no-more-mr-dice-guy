@@ -141,7 +141,7 @@ async fn add_role_toggle(ctx: &Context, msg: &Message, mut args: Args) -> Comman
 		.trim();
 
 	let guild: Guild = msg
-		.guild(&ctx)
+		.guild(ctx)
 		.ok_or_else(|| anyhow!("Couldn't retrieve guild"))?;
 	let role = guild
 		.role_by_name(role)
@@ -173,7 +173,7 @@ async fn remove_role_toggle(ctx: &Context, msg: &Message, mut args: Args) -> Com
 			.context("Couldn't parse first argument as emoji")?;
 
 	let guild: Guild = msg
-		.guild(&ctx)
+		.guild(ctx)
 		.ok_or_else(|| anyhow!("Couldn't retrieve guild"))?;
 
 	{

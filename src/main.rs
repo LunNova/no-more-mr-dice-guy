@@ -51,7 +51,7 @@ impl EventHandler for Handler {
 			Ok(_) => {}
 			Err(err) => {
 				error!("Error handling reaction_add {:?}", err);
-				let _ = send_warning_message(&ctx, reaction.channel_id, &format!("{}", err)).await;
+				let _ = send_warning_message(&ctx, reaction.channel_id, &format!("{err}")).await;
 			}
 		}
 	}
@@ -61,13 +61,13 @@ impl EventHandler for Handler {
 			Ok(_) => {}
 			Err(err) => {
 				error!("Error handling reaction_remove {:?}", err);
-				let _ = send_warning_message(&ctx, reaction.channel_id, &format!("{}", err)).await;
+				let _ = send_warning_message(&ctx, reaction.channel_id, &format!("{err}")).await;
 			}
 		}
 	}
 
 	async fn ready(&self, ctx: Context, ready: Ready) {
-		let activity = Activity::playing(&format!("{}help | shard {}", CMD_PREFIX, ctx.shard_id));
+		let activity = Activity::playing(format!("{}help | shard {}", CMD_PREFIX, ctx.shard_id));
 		ctx.set_presence(Some(activity), OnlineStatus::Online).await;
 		info!(
 			"{} shard {} is connected to {} guilds",
@@ -80,7 +80,7 @@ impl EventHandler for Handler {
 
 #[tokio::main]
 async fn main() {
-	if std::env::var_os("RUST_LOG") == None {
+	if std::env::var_os("RUST_LOG").is_none() {
 		std::env::set_var("RUST_LOG", "info");
 	}
 
@@ -128,7 +128,7 @@ async fn start() -> Result<()> {
 	{
 		let manager = client.shard_manager.clone();
 		ctrlc::set_handler(move || {
-			stop_client(&*manager);
+			stop_client(&manager);
 		})
 		.expect("Failed to set ctrlc handler");
 	}
@@ -168,7 +168,7 @@ fn warning_message(m: &mut serenity::builder::CreateMessage, msg: &str) {
 		e.title("Error");
 
 		// warning triangle emoji
-		e.description(format!("\u{26a0}\u{fe0f}{}", msg));
+		e.description(format!("\u{26a0}\u{fe0f}{msg}"));
 
 		e
 	});

@@ -30,7 +30,7 @@ async fn manage_roles_high(
 // Had to reimplement permissions checks as they don't work when the GUILD_MEMBERS intent isn't used
 // https://github.com/serenity-rs/serenity/issues/888
 async fn check_manage_roles_high(ctx: &Context, msg: &Message) -> Result<Option<Reason>> {
-	Ok(match msg.guild(&ctx) {
+	Ok(match msg.guild(ctx) {
 		None => Some(Reason::UserAndLog {
 			user: msg.author.name.clone(),
 			log: "Not in a guild".to_string(),

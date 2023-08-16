@@ -103,11 +103,11 @@ fn roll_oversized_result() {
 fn roll_oversized_unparseable() {
 	{
 		let roll = roll_expression("999999999999999999d1");
-		assert!(roll.is_err(), "{:?}", roll);
+		assert!(roll.is_err(), "{roll:?}");
 	}
 	{
 		let roll = roll_expression("1d999999999999999999999999");
-		assert!(roll.is_err(), "{:?}", roll);
+		assert!(roll.is_err(), "{roll:?}");
 	}
 }
 
@@ -115,15 +115,15 @@ fn roll_oversized_unparseable() {
 fn roll_barely_acceptably_sized() {
 	{
 		let roll = roll_expression(&format!("{}d1", MAX_ROLLED_DICE - 1));
-		assert!(roll.is_ok(), "{:?}", roll);
+		assert!(roll.is_ok(), "{roll:?}");
 	}
 	{
 		let roll = roll_expression(&format!("1d{}", MAX_DICE_SIDES - 1));
-		assert!(roll.is_ok(), "{:?}", roll);
+		assert!(roll.is_ok(), "{roll:?}");
 	}
 	{
 		let roll = roll_expression(&format!("{}d{}", MAX_ROLLED_DICE - 1, MAX_DICE_SIDES - 1));
-		assert!(roll.is_ok(), "{:?}", roll);
+		assert!(roll.is_ok(), "{roll:?}");
 	}
 }
 

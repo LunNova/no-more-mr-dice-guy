@@ -50,7 +50,7 @@ pub fn parse(mut str: &str) -> Result<Options> {
 					.get(idx)
 					.ok_or_else(|| anyhow!("Missing value for {:?}", option))?;
 
-				if let (Valued::DiceSides, &"F") = (valued, value) {
+				if matches!((valued, value), (Valued::DiceSides, &"F")) {
 					dice_sides = Some(vec![-3, 0, 3]);
 					continue;
 				}

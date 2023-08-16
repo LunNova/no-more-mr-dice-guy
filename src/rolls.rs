@@ -24,9 +24,9 @@ pub fn roll_expression_value(msg: &str) -> Result<DiceInt> {
 	use num_traits::cast::ToPrimitive;
 	let (_, _, vals) = roll_expressions(msg, &mut rand::thread_rng())?;
 	let evaled = meval::eval_str(&vals).map_err(|_e| anyhow!("Couldn't evaluate {}", vals))?;
-	Ok(evaled
+	evaled
 		.to_i32()
-		.ok_or_else(|| anyhow!("Result out of range"))?)
+		.ok_or_else(|| anyhow!("Result out of range"))
 }
 
 pub fn roll_expression(msg: &str) -> Result<String> {
@@ -38,10 +38,10 @@ pub fn roll_expression(msg: &str) -> Result<String> {
 		&& vals.parse::<DiceInt>().is_ok();
 
 	Ok(if single_simple_roll {
-		format!("**{}**", vals)
+		format!("**{vals}**")
 	} else {
 		let evaled = meval::eval_str(&vals).map_err(|_e| anyhow!("Couldn't evaluate {}", vals))?;
-		format!("{} => **{}**", dice, evaled)
+		format!("{dice} => **{evaled}**")
 	})
 }
 
@@ -57,7 +57,7 @@ fn roll_expressions(msg: &str, rng: &mut impl Rng) -> Result<(Vec<DiceRoll>, Str
 					Ok(roll) => roll,
 					Err(e) => {
 						err = Err(e);
-						return "".to_string();
+						return String::new();
 					}
 				};
 				let rep = format!("{}{}{}", &caps[1], roll.dice(), &caps[3]);
@@ -126,7 +126,7 @@ impl DiceRoll {
 			for _ in 0..dice_to_roll {
 				let mut current_roll = options.dice_sides[rng.gen_range(0..dice_size_bound)];
 				let mut total = current_roll;
-				if current_roll == max_possible_roll && options.explode != None {
+				if current_roll == max_possible_roll && options.explode.is_some() {
 					maxed = maxed.checked_add(1).ok_or_else(|| {
 						anyhow!("Overflow due to overflow tracking exploded dice count.")
 					})?;
@@ -181,7 +181,7 @@ impl DiceRoll {
 					(if self.check_dice(*it) {
 						it.to_string()
 					} else {
-						format!("~~{}~~", it)
+						format!("~~{it}~~")
 					}) + ", "
 				})
 				.collect::<String>()

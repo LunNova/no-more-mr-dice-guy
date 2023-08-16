@@ -65,14 +65,14 @@ async fn roll_many(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
 	let arg = args.rest();
 	let arg = if arg.is_empty() { "1d20" } else { arg };
 
-	let mut result = "".to_string();
+	let mut result = String::new();
 	let mut messages = vec![];
 
 	for i in 1..=count {
 		let next_line = &format!("{}: {}\n", i, crate::rolls::roll_expression(arg)?);
 		if result.len() + next_line.len() >= MESSAGE_CODE_LIMIT {
 			messages.push(result);
-			result = "".to_string();
+			result = String::new();
 		}
 		result += next_line;
 	}
@@ -133,14 +133,14 @@ async fn roll_bincount(ctx: &Context, msg: &Message, mut args: Args) -> CommandR
 		*entry += 1;
 	}
 
-	let mut result = "".to_string();
+	let mut result = String::new();
 	let mut messages = vec![];
 
 	for (k, v) in counts.iter().sorted() {
-		let next_line = &format!("{}: {}\n", k, v);
+		let next_line = &format!("{k}: {v}\n");
 		if result.len() + next_line.len() >= MESSAGE_CODE_LIMIT {
 			messages.push(result);
-			result = "".to_string();
+			result = String::new();
 		}
 		result += next_line;
 	}
@@ -182,12 +182,12 @@ async fn inline_rolls(msg: &Message, message: &str) -> Result<String> {
 				Ok(rolled) => rolled,
 				Err(e) => {
 					err = Some(e);
-					"".to_string()
+					String::new()
 				}
 			},
 		);
 	match err {
 		Some(err) => Err(err),
-		None => Ok(format!("{}: {}", nick, rolled)),
+		None => Ok(format!("{nick}: {rolled}")),
 	}
 }

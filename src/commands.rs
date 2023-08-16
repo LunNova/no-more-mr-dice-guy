@@ -44,7 +44,7 @@ async fn latency(ctx: &Context, msg: &Message) -> CommandResult {
 		runner.latency
 	};
 
-	msg.reply(ctx, &format!("The shard latency is {:?}", latency))
+	msg.reply(ctx, &format!("The shard latency is {latency:?}"))
 		.await?;
 
 	Ok(())
@@ -57,8 +57,7 @@ async fn invite(ctx: &Context, msg: &Message) -> CommandResult {
 	msg.reply(
 		&ctx,
 		format!(
-			"<https://discord.com/oauth2/authorize?client_id={}&scope=bot%20applications.commands&permissions=0>",
-			id
+			"<https://discord.com/oauth2/authorize?client_id={id}&scope=bot%20applications.commands&permissions=0>"
 		),
 	)
 	.await?;
@@ -169,7 +168,7 @@ async fn after(ctx: &Context, msg: &Message, command_name: &str, command_result:
 		Ok(()) => info!("Processed command '{}'", command_name),
 		Err(why) => {
 			error!("Command '{}' returned error {:?}", command_name, why);
-			let _ = super::send_warning_message(ctx, msg.channel_id, &format!("{}", why)).await;
+			let _ = super::send_warning_message(ctx, msg.channel_id, &format!("{why}")).await;
 		}
 	}
 }
@@ -180,7 +179,7 @@ async fn unknown_command(ctx: &Context, msg: &Message, unknown_command_name: &st
 		.channel_id
 		.say(
 			&ctx.http,
-			format!("Could not find command named '{}'", unknown_command_name),
+			format!("Could not find command named '{unknown_command_name}'"),
 		)
 		.await
 	{
@@ -198,16 +197,16 @@ async fn unknown_command(ctx: &Context, msg: &Message, unknown_command_name: &st
 async fn dispatch_error(ctx: &Context, msg: &Message, error: DispatchError, _command_name: &str) {
 	let error_message = match error {
 		DispatchError::CheckFailed(message, reason) => {
-			format!("Check {} failed due to {:?}", message, reason)
+			format!("Check {message} failed due to {reason:?}")
 		}
 		DispatchError::Ratelimited(duration) => format!(
 			"Rate limited. Try this again in {} seconds.",
 			duration.as_secs()
 		),
 		DispatchError::LackingPermissions(permission) => {
-			format!("Missing permission {}", permission)
+			format!("Missing permission {permission}")
 		}
-		error => format!("Unknown error {:?}", error),
+		error => format!("Unknown error {error:?}"),
 	};
 
 	let _ = msg
