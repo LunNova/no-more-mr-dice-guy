@@ -97,7 +97,8 @@ async fn start() -> Result<()> {
 		| GatewayIntents::DIRECT_MESSAGES // DM commands
 		| GatewayIntents::GUILD_EMOJIS_AND_STICKERS // emoji
 		| GatewayIntents::GUILD_MESSAGE_REACTIONS // guild role reacts
-		| GatewayIntents::GUILD_MESSAGES; // guild commands
+		| GatewayIntents::GUILD_MESSAGES // guild commands
+		| GatewayIntents::MESSAGE_CONTENT; // message contents for commands
 
 	// Configure the client with your Discord bot token in the environment.
 	let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
