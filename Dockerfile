@@ -22,9 +22,12 @@ FROM ubuntu:rolling
 
 LABEL org.opencontainers.image.source=https://github.com/LunNova/no-more-mr-dice-guy
 
-RUN addgroup --gid 1000 nmmdg && \
-    adduser --disabled-login --shell /bin/sh --uid 1000 --ingroup nmmdg nmmdg && \
-    apt-get update && apt-get install libssl3 libcurl4 -y && rm -rf /var/lib/apt/lists/*
+RUN cat /etc/passwd && cat /etc/group && \
+    apt-get update && apt-get install adduser libssl3 libcurl4 -y && rm -rf /var/lib/apt/lists/* && \
+    groupadd -o -g 1000 nmmdg && \
+    passwd -l ubuntu && \
+    mv /home/ubuntu /home/nmmdg && \
+    usermod --shell /bin/sh --home /home/nmmdg -l nmmdg ubuntu
 
 WORKDIR /home/nmmdg/
 
