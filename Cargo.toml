@@ -2,7 +2,7 @@
 name = "no_more_mr_dice_guy"
 version = "0.5.0"
 authors = ["Luna <git@nyx.nova.fail>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 tokio = { version = "1.31.0", features = ["macros", "rt-multi-thread"] }
