@@ -1,5 +1,10 @@
 {
-	"extends": [
-		"github>MinimallyCorrect/.github:renovate-default"
-	]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>LunNova/.github:renovate-config"
+  ],
+  "separateMinorPatch": true,
+  "assigneesFromCodeOwners": true,
+  "reviewersFromCodeOwners": true,
+  "rangeStrategy": "update-lockfile"
 }
